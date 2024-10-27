@@ -2,13 +2,14 @@ PRIORITY = { "LOW": 1, "MEDIUM": 3, "HIGH": 5, "URGENT": 7 };
 
 
 function validInteger (value) { // value can be a string or a number (integer)
-  
-  return Number.isInteger(value) && value > 0;
+  return Number.isInteger ? true : false;
 }  
 
 
-function validatePriority(priority) { // value can be a string or a number (integer)
-  
+function validatePriority(priority) {
+  // Converts priority to an integer if it's a string and checks against valid PRIORITY levels
+  const intPriority = typeof priority === 'string' ? parseInt(priority) : priority;
+  return PRIORITY['LOW'] <= intPriority && intPriority <= PRIORITY['URGENT'] ? intPriority : PRIORITY['LOW'];
 }
 
 
@@ -31,6 +32,20 @@ class Task  {
     this._priority = priority
   }
 
+  get _added(){
+    return this.added
+  }
+  get _title(){
+    return this._title
+  }
+  get _priority(){
+    return this._priority
+  }
+  set _priority(Value){
+    this._priority = validatePriority(Value)
+
+  }
+
   // (title, priority)
 }
 
@@ -41,10 +56,14 @@ class ToDo {
   }
 
   add(){
-    tasks.append[task]
-    return length(tasks)
+    this.tasks.append[task]
+    return this.tasks.length
   }
-  remove(){}
+  remove(title) {
+    const initialLength = this.tasks.length;
+    this.tasks = this.tasks.filter((task) => task.title !== title);
+    return this.tasks.length < initialLength;
+  }
   list(){}
   task(){}
     
