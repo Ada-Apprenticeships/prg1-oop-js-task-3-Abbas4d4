@@ -12,9 +12,11 @@ function validatePriority(priority) { // value can be a string or a number (inte
 }
 
 
-function todaysDate () {
-  // Returns the current date and time in the format 'dd/mm/yyyy hh:mm:ss'.
-  
+function todaysDate() {
+  // Returns the current date and time in 'dd/mm/yyyy hh:mm:ss' format
+  const now = new Date();
+  const format = (num) => num.toString().padStart(2, '0');
+  return `${format(now.getDate())}/${format(now.getMonth() + 1)}/${now.getFullYear()} ${format(now.getHours())}:${format(now.getMinutes())}:${format(now.getSeconds())}`;
 }
 
 
@@ -38,7 +40,10 @@ class ToDo {
     this.tasks = ['']
   }
 
-  add(){}
+  add(){
+    tasks.append[task]
+    return length(tasks)
+  }
   remove(){}
   list(){}
   task(){}
