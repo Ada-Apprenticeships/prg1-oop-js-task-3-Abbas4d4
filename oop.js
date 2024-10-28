@@ -1,16 +1,21 @@
 PRIORITY = { "LOW": 1, "MEDIUM": 3, "HIGH": 5, "URGENT": 7 };
 
 
-function validInteger (value) { // value can be a string or a number (integer)
-  return Number.isInteger ? true : false;
+function validInteger (value) { // returns true if value is integer otherwise returns false
+  return /^\d+$/.test(value)
+
 }  
 
 
 function validatePriority(priority) {
   // Converts priority to an integer if it's a string and checks against valid PRIORITY levels
-  const intPriority = typeof priority === 'string' ? parseInt(priority) : priority;
-  return PRIORITY['LOW'] <= intPriority && intPriority <= PRIORITY['URGENT'] ? intPriority : PRIORITY['LOW'];
-}
+  return priority == 'LOW' || priority == 1 ? 1
+  : priority == 'MEDIUM' || priority == 3 ? 3
+  : priority == 'HIGH' || priority == 5 ? 5
+  : priority == 'URGENT' || priority == 7 ? 7
+  : 1
+};
+
 
 
 function todaysDate() {
@@ -26,23 +31,23 @@ class Task  {
   _title
   _priority
 
-  constructor(added,title,priority){
-    this._added = added
+  constructor(title,priority){
+    this._added = todaysDate()
     this._title = title
     this._priority = priority
   }
 
-  get _added(){
+  get added(){
     return this.added
   }
-  get _title(){
+  get title(){
     return this._title
   }
-  get _priority(){
+  get priority(){
     return this._priority
   }
-  set _priority(Value){
-    this._priority = validatePriority(Value)
+  set priority(value){
+    this._priority = validatePriority(value)
 
   }
 
@@ -51,21 +56,42 @@ class Task  {
 
 
 class ToDo {
-  constructor(){
-    this.tasks = ['']
+  _tasks
+  
+  constructor(_tasks){
+    this.ListOfTasks = []
+    this._tasks = tasks
   }
 
-  add(){
-    this.tasks.append[task]
-    return this.tasks.length
+  add(Task){
+    this.ListOfTasks.push[Task]
+    return this.ListOfTasks.length
   }
+  
   remove(title) {
-    const initialLength = this.tasks.length;
-    this.tasks = this.tasks.filter((task) => task.title !== title);
-    return this.tasks.length < initialLength;
+    for (let i = 0; i < this._tasks.length; i++) {
+      if (this._tasks[i].title === title) {
+        this._tasks.splice(i, 1);
+        return;
+      }
+    }
+    // If not found, throw an error
+    throw new Error(`Task '${title}' not found.`);
   }
-  list(){}
-  task(){}
+
+
+  list(priority) {
+    return this.tasks
+      .filter((task) => priority === 0 || task.priority === priority) //creates new arary excluding specified conditions
+      .map((task) => [task.added, task.title, task.priority]);   //map formats the arrangement of newly created array
+  }
+  task(title) {
+    for (const task of this.tasks) {
+      if (task.title === title) {
+        return task;
+      }
+    } throw new Error(`Task '${title}' Not Found`);
+  }
     
 }
 
