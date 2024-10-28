@@ -3,7 +3,6 @@ PRIORITY = { "LOW": 1, "MEDIUM": 3, "HIGH": 5, "URGENT": 7 };
 
 function validInteger (value) { // returns true if value is integer otherwise returns false
   return /^\d+$/.test(value)
-
 }  
 
 
@@ -38,7 +37,7 @@ class Task  {
   }
 
   get added(){
-    return this.added
+    return this._added
   }
   get title(){
     return this._title
@@ -58,42 +57,41 @@ class Task  {
 class ToDo {
   _tasks
   
-  constructor(_tasks){
+  constructor(tasks){
     this.ListOfTasks = []
     this._tasks = tasks
   }
 
   add(Task){
-    this.ListOfTasks.push[Task]
-    return this.ListOfTasks.length
+    this.ListOfTasks.push(Task)
+    return (this.ListOfTasks.length)
   }
   
   remove(title) {
-    for (let i = 0; i < this._tasks.length; i++) {
-      if (this._tasks[i].title === title) {
-        this._tasks.splice(i, 1);
-        return;
-      }
-    }
-    // If not found, throw an error
-    throw new Error(`Task '${title}' not found.`);
+    const initialLength = this.ListOfTasks.length
+    this.ListOfTasks = this.ListOfTasks.filter(task => task.title != title)
+    return this.ListOfTasks.length< initialLength    
   }
 
 
-  list(priority) {
-    return this.tasks
+  list(priority = 0) {
+    const priorityList = this.ListOfTasks
       .filter((task) => priority === 0 || task.priority === priority) //creates new arary excluding specified conditions
-      .map((task) => [task.added, task.title, task.priority]);   //map formats the arrangement of newly created array
+      .map(task => [task.added, task.title, task.priority]);   //map formats the arrangement of newly created array
+    return priorityList
   }
   task(title) {
-    for (const task of this.tasks) {
-      if (task.title === title) {
-        return task;
-      }
-    } throw new Error(`Task '${title}' Not Found`);
+  if (this.ListOfTasks.find(task => task.title === title)) {
+    return task
   }
-    
-}
+  throw new Error(`Task '${title}' Not Found`)
+  //   for (const task of this._tasks) {
+  //     if (task.title === title) {
+  //       return task;
+  //     }
+  //   } throw new Error(`Task '${title}' Not Found`);
+  // }
+}}
 
 
 
